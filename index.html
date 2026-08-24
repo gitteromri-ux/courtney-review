@@ -94,24 +94,24 @@ const BANNERS = {
   all: [
     {f:"c_b4_191x1.png", t:"Hook 04 · 1.91:1"},
     {f:"LLA_COURTNEY_191x1_1200x628.png", t:"7A Neon · 1.91:1"},
-    {f:"c_b4_9x16.png", t:"Hook 04 · 9:16"},
     {f:"LLA_ROUND_6A_1080X1920_1080x1920.png", t:"Round 6A · Glass 3D"},
     {f:"LLA_CONCEPT_31_5A_COURTNEY-LEAD-CARD-V2_1440x1440.png", t:"5A · Courtney Lead Card V2"},
+    {f:"c_b4_9x16.png", t:"Hook 04 · 9:16"},
     {f:"LLA_2E_GHOST-WORDMARK_1440x1440.png", t:"2E · Ghost Wordmark"},
     {f:"LLA_CONCEPT_14_B1_COURTNEY-BLACK-HEADER-CARD-RIGHT_1440x1440.png", t:"B1 · Black Header · Card Right"},
+    {f:"LLA_CONCEPT_07_E1_COURTNEY-35-AUG-PROMO-DARK-CARD_1440x1440.png", t:"E1 · 35% Aug Promo"},
     {f:"LLA_2A_THE-GRAND-ARCH_1440x1440.png", t:"2A · The Grand Arch"},
     {f:"c_b4_4x5.png", t:"Hook 04 · 4:5"},
-    {f:"LLA_CONCEPT_07_E1_COURTNEY-35-AUG-PROMO-DARK-CARD_1440x1440.png", t:"E1 · 35% Aug Promo"},
     {f:"LLA_ROUND_7A_1080X1920_1080x1920.png", t:"Round 7A · Glass 3D"},
     {f:"LLA_CONCEPT_10_W3_COURTNEY-WHITE-CARD-RIGHT_1440x1440.png", t:"W3 · Courtney White Card — Right"},
     {f:"LLA_CONCEPT_49_1B_DECODE-YOUR-BIOMARKERS_1440x1440.png", t:"1B · Decode Your Biomarkers"},
     {f:"LLA_CONCEPT_03_G2_COURTNEY-GLASS-CARD_1440x1440.png", t:"G2 · Courtney Glass Card"},
-    {f:"LLA_CONCEPT_13_B2_COURTNEY-BLACK-HEADER-CARD-LEFT_1440x1440.png", t:"B2 · Black Header · Card Left"},
-    {f:"LLA_CONCEPT_52_1E_LIVE-SESSIONS_1440x1440.png", t:"1E · Live Sessions"},
     {f:"c_b4_1x1.png", t:"Hook 04 · 1:1"},
+    {f:"LLA_CONCEPT_13_B2_COURTNEY-BLACK-HEADER-CARD-LEFT_1440x1440.png", t:"B2 · Black Header · Card Left"},
     {f:"LLA_CONCEPT_48_1A_DECODE-YOUR-BIOMARKERS_1440x1440.png", t:"1A · Decode Your Biomarkers"},
-    {f:"LLA_CONCEPT_50_1C_DECODE-YOUR-BIOMARKERS_1440x1440.png", t:"1C · Decode Your Biomarkers"},
+    {f:"LLA_CONCEPT_52_1E_LIVE-SESSIONS_1440x1440.png", t:"1E · Live Sessions"},
     {f:"LLA_CONCEPT_09_W1_COURTNEY-WHITE-CARD_1440x1440.png", t:"W1 · Courtney White Card"},
+    {f:"LLA_CONCEPT_50_1C_DECODE-YOUR-BIOMARKERS_1440x1440.png", t:"1C · Decode Your Biomarkers"},
     {f:"LLA_COURTNEY_16x9_1920x1080.png", t:"7A Neon · 16:9"}
   ]
 };
@@ -202,7 +202,7 @@ window.addEventListener('pointerdown', e=>{
 const wall = document.querySelector('[data-block="all"]');
 let wallCols = 0;
 function buildWall(){
-  const n = innerWidth>=1100?3:(innerWidth>=680?2:1);
+  const n = innerWidth>=680?2:1;
   if(n===wallCols) return; wallCols = n;
   wall.innerHTML = '';
   const cols = [];
