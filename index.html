@@ -39,8 +39,8 @@
   .btn:hover{filter:brightness(1.12)}
   .btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);font-weight:600}
   .fsize{color:var(--mut);font-size:12.5px}
-  .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
-  .bgrid.wide{grid-template-columns:repeat(auto-fill,minmax(460px,1fr))}
+  .bgrid{display:flex;gap:24px;align-items:flex-start}
+  .bcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:24px}
   .bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
   .bcard img{width:100%;height:auto;display:block;background:#091021}
   .bcard .cap{padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}
@@ -195,17 +195,25 @@ window.addEventListener('pointerdown', e=>{
   if(mainV && !mainV.paused){ const r=mainV.getBoundingClientRect(); if(r.top<innerHeight&&r.bottom>0) soundOn(mainV); }
 },{capture:true});
 
-// Build banner cards
-Object.entries(BANNERS).forEach(([key,items])=>{
-  const grid = document.querySelector(`[data-block="${key}"]`);
-  items.forEach(b=>{
+// Build banner wall — masonry columns so every card hugs its image (no empty boxes).
+const wall = document.querySelector('[data-block="all"]');
+let wallCols = 0;
+function buildWall(){
+  const n = innerWidth>=1100?3:(innerWidth>=680?2:1);
+  if(n===wallCols) return; wallCols = n;
+  wall.innerHTML = '';
+  const cols = [];
+  for(let i=0;i<n;i++){ const c=document.createElement('div'); c.className='bcol'; wall.appendChild(c); cols.push(c); }
+  BANNERS.all.forEach((b,i)=>{
     const c = document.createElement('div'); c.className='bcard';
     c.innerHTML = `
       <img src="banners/${b.f}" alt="${b.t}" loading="lazy">
       <div class="cap" style="justify-content:flex-end"><a class="dl" href="banners/${b.f}" download>&#11015; PNG</a></div>`;
-    grid.appendChild(c);
+    cols[i%n].appendChild(c);
   });
-});
+}
+buildWall();
+window.addEventListener('resize', buildWall);
 </script>
 </body>
 </html>
