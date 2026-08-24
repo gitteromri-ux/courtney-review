@@ -39,10 +39,10 @@
   .btn:hover{filter:brightness(1.12)}
   .btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);font-weight:600}
   .fsize{color:var(--mut);font-size:12.5px}
-  .bgrid{display:flex;flex-direction:column;gap:24px}
-  .brow{display:flex;gap:24px;align-items:stretch}
-  .brow .bcard{min-width:0}
-  @media(max-width:680px){.brow{flex-direction:column}.brow .bcard{width:100%!important;flex:none!important}}
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .bcard .imgbox{height:400px;display:flex;align-items:center;justify-content:center;background:#091021}
+  .bcard .imgbox img{max-width:100%;max-height:100%;width:auto;height:auto;display:block}
+  @media(max-width:680px){.bgrid{grid-template-columns:1fr}.bcard .imgbox{height:300px}}
   .bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
   .bcard img{width:100%;height:auto;display:block;background:#091021}
   .bcard .cap{padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}
@@ -216,21 +216,14 @@ const ROWS = [
   [["LLA_CONCEPT_09_W1_COURTNEY-WHITE-CARD_1440x1440.png",1,"W1 · White Card"],["LLA_CONCEPT_50_1C_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1C · Decode Your Biomarkers"]],
   [["LLA_COURTNEY_16x9_1920x1080.png",1.7778,"7A Neon · 16:9"]]
 ];
+// Every card is an IDENTICAL box (2 per row, fixed height); banner fits inside at native ratio.
 const wall = document.querySelector('[data-block="all"]');
-ROWS.forEach(row=>{
-  const sum = row.reduce((s,b)=>s+b[1],0);
-  const r = document.createElement('div'); r.className='brow';
-  // Uniform size: every row renders at the same banner height (~340px desktop).
-  r.style.width = `min(100%, ${Math.round(sum*340)}px)`;
-  row.forEach(b=>{
-    const c = document.createElement('div'); c.className='bcard';
-    c.style.flex = `${b[1]} 1 0`;
-    c.innerHTML = `
-      <img src="banners/${b[0]}" alt="${b[2]}" loading="lazy">
-      <div class="cap" style="justify-content:flex-end"><a class="dl" href="banners/${b[0]}" download>&#11015; PNG</a></div>`;
-    r.appendChild(c);
-  });
-  wall.appendChild(r);
+ROWS.flat().forEach(b=>{
+  const c = document.createElement('div'); c.className='bcard';
+  c.innerHTML = `
+    <div class="imgbox"><img src="banners/${b[0]}" alt="${b[2]}" loading="lazy"></div>
+    <div class="cap" style="justify-content:flex-end"><a class="dl" href="banners/${b[0]}" download>&#11015; PNG</a></div>`;
+  wall.appendChild(c);
 });
 </script>
 </body>
