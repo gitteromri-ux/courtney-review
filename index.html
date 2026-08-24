@@ -39,8 +39,10 @@
   .btn:hover{filter:brightness(1.12)}
   .btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);font-weight:600}
   .fsize{color:var(--mut);font-size:12.5px}
-  .bgrid{display:flex;gap:24px;align-items:flex-start}
-  .bcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:24px}
+  .bgrid{display:flex;flex-direction:column;gap:24px}
+  .brow{display:flex;gap:24px;align-items:stretch}
+  .brow .bcard{min-width:0}
+  @media(max-width:680px){.brow{flex-direction:column}.brow .bcard{width:100%!important;flex:none!important}}
   .bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
   .bcard img{width:100%;height:auto;display:block;background:#091021}
   .bcard .cap{padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}
@@ -198,25 +200,38 @@ window.addEventListener('pointerdown', e=>{
   if(mainV && !mainV.paused){ const r=mainV.getBoundingClientRect(); if(r.top<innerHeight&&r.bottom>0) soundOn(mainV); }
 },{capture:true});
 
-// Build banner wall — masonry columns so every card hugs its image (no empty boxes).
+// Banner wall — 2 per row, both banners in a row rendered at the SAME height,
+// each at its native aspect ratio (width proportional to aspect — nothing distorted).
+// Rows paired for maximum contrast: light vs dark, different design families.
+const ROWS = [
+  [["c_b4_191x1.png",1.911,"Hook 04 · 1.91:1"],["LLA_COURTNEY_191x1_1200x628.png",1.911,"7A Neon · 1.91:1"]],
+  [["c_b4_9x16.png",0.5625,"Hook 04 · 9:16"],["LLA_ROUND_6A_1080X1920_1080x1920.png",0.5625,"Round 6A · Glass 3D"]],
+  [["LLA_ROUND_7A_1080X1920_1080x1920.png",0.5625,"Round 7A · Glass 3D"],["c_b4_4x5.png",0.8,"Hook 04 · 4:5"]],
+  [["LLA_CONCEPT_31_5A_COURTNEY-LEAD-CARD-V2_1440x1440.png",1,"5A · Lead Card"],["c_b4_1x1.png",1,"Hook 04 · 1:1"]],
+  [["LLA_CONCEPT_03_G2_COURTNEY-GLASS-CARD_1440x1440.png",1,"G2 · Glass Card"],["LLA_2E_GHOST-WORDMARK_1440x1440.png",1,"2E · Ghost Wordmark"]],
+  [["LLA_CONCEPT_14_B1_COURTNEY-BLACK-HEADER-CARD-RIGHT_1440x1440.png",1,"B1 · Black Header Right"],["LLA_CONCEPT_07_E1_COURTNEY-35-AUG-PROMO-DARK-CARD_1440x1440.png",1,"E1 · 35% Aug Promo"]],
+  [["LLA_2A_THE-GRAND-ARCH_1440x1440.png",1,"2A · The Grand Arch"],["LLA_CONCEPT_49_1B_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1B · Decode Your Biomarkers"]],
+  [["LLA_CONCEPT_10_W3_COURTNEY-WHITE-CARD-RIGHT_1440x1440.png",1,"W3 · White Card Right"],["LLA_CONCEPT_48_1A_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1A · Decode Your Biomarkers"]],
+  [["LLA_CONCEPT_52_1E_LIVE-SESSIONS_1440x1440.png",1,"1E · Live Sessions"],["LLA_CONCEPT_13_B2_COURTNEY-BLACK-HEADER-CARD-LEFT_1440x1440.png",1,"B2 · Black Header Left"]],
+  [["LLA_CONCEPT_09_W1_COURTNEY-WHITE-CARD_1440x1440.png",1,"W1 · White Card"],["LLA_CONCEPT_50_1C_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1C · Decode Your Biomarkers"]],
+  [["LLA_COURTNEY_16x9_1920x1080.png",1.7778,"7A Neon · 16:9"]]
+];
 const wall = document.querySelector('[data-block="all"]');
-let wallCols = 0;
-function buildWall(){
-  const n = innerWidth>=680?2:1;
-  if(n===wallCols) return; wallCols = n;
-  wall.innerHTML = '';
-  const cols = [];
-  for(let i=0;i<n;i++){ const c=document.createElement('div'); c.className='bcol'; wall.appendChild(c); cols.push(c); }
-  BANNERS.all.forEach((b,i)=>{
+ROWS.forEach(row=>{
+  const sum = row.reduce((s,b)=>s+b[1],0);
+  const r = document.createElement('div'); r.className='brow';
+  // Normalize row width so all rows land at a similar height (squares = baseline).
+  r.style.width = `min(100%, ${(sum/2*100).toFixed(1)}%)`;
+  row.forEach(b=>{
     const c = document.createElement('div'); c.className='bcard';
+    c.style.flex = `${b[1]} 1 0`;
     c.innerHTML = `
-      <img src="banners/${b.f}" alt="${b.t}" loading="lazy">
-      <div class="cap" style="justify-content:flex-end"><a class="dl" href="banners/${b.f}" download>&#11015; PNG</a></div>`;
-    cols[i%n].appendChild(c);
+      <img src="banners/${b[0]}" alt="${b[2]}" loading="lazy">
+      <div class="cap" style="justify-content:flex-end"><a class="dl" href="banners/${b[0]}" download>&#11015; PNG</a></div>`;
+    r.appendChild(c);
   });
-}
-buildWall();
-window.addEventListener('resize', buildWall);
+  wall.appendChild(r);
+});
 </script>
 </body>
 </html>
