@@ -74,7 +74,7 @@
   <div class="vgrid" id="vidgrid-more"></div>
 
   <h2 id="banners">Banners — approved set</h2>
-  <p class="blockmeta">All 21 approved banners — each shown once, no two similar designs next to each other. Every card downloads the exact source PNG.</p>
+  <p class="blockmeta">All 21 approved banners, in the exact order requested. Every card downloads the exact source PNG at original size.</p>
   <div class="bgrid" data-block="all"></div>
 
   <footer>Courtney Review · Longevity Life Academy — internal review package. Download buttons deliver the untouched source masters; banners are exact source PNGs at native dimensions.</footer>
@@ -199,25 +199,34 @@ window.addEventListener('pointerdown', e=>{
   if(mainV && !mainV.paused){ const r=mainV.getBoundingClientRect(); if(r.top<innerHeight&&r.bottom>0) soundOn(mainV); }
 },{capture:true});
 
-// Banner wall — 2 per row, both banners in a row rendered at the SAME height,
-// each at its native aspect ratio (width proportional to aspect — nothing distorted).
-// Rows paired for maximum contrast: light vs dark, different design families.
+// Banners in the EXACT order the user dictated (turn: "include these on top" + earlier order):
+// 7A Neon 16:9, 7A Neon 1.91:1, G2, 1C, 1B, 1E, W1, W3, B2, B1, 5A, 2E,
+// Hook 04 (1:1, 4:5, 9:16, 1.91:1), E1, 2A, Round 6A, Round 7A, 1A.
 const ROWS = [
-  [["c_b4_191x1.png",1.911,"Hook 04 · 1.91:1"],["LLA_COURTNEY_191x1_1200x628.png",1.911,"7A Neon · 1.91:1"]],
-  [["c_b4_9x16.png",0.5625,"Hook 04 · 9:16"],["LLA_ROUND_6A_1080X1920_1080x1920.png",0.5625,"Round 6A · Glass 3D"]],
-  [["LLA_ROUND_7A_1080X1920_1080x1920.png",0.5625,"Round 7A · Glass 3D"],["c_b4_4x5.png",0.8,"Hook 04 · 4:5"]],
-  [["LLA_CONCEPT_31_5A_COURTNEY-LEAD-CARD-V2_1440x1440.png",1,"5A · Lead Card"],["c_b4_1x1.png",1,"Hook 04 · 1:1"]],
-  [["LLA_CONCEPT_03_G2_COURTNEY-GLASS-CARD_1440x1440.png",1,"G2 · Glass Card"],["LLA_2E_GHOST-WORDMARK_1440x1440.png",1,"2E · Ghost Wordmark"]],
-  [["LLA_CONCEPT_14_B1_COURTNEY-BLACK-HEADER-CARD-RIGHT_1440x1440.png",1,"B1 · Black Header Right"],["LLA_CONCEPT_07_E1_COURTNEY-35-AUG-PROMO-DARK-CARD_1440x1440.png",1,"E1 · 35% Aug Promo"]],
-  [["LLA_2A_THE-GRAND-ARCH_1440x1440.png",1,"2A · The Grand Arch"],["LLA_CONCEPT_49_1B_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1B · Decode Your Biomarkers"]],
-  [["LLA_CONCEPT_10_W3_COURTNEY-WHITE-CARD-RIGHT_1440x1440.png",1,"W3 · White Card Right"],["LLA_CONCEPT_48_1A_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1A · Decode Your Biomarkers"]],
-  [["LLA_CONCEPT_52_1E_LIVE-SESSIONS_1440x1440.png",1,"1E · Live Sessions"],["LLA_CONCEPT_13_B2_COURTNEY-BLACK-HEADER-CARD-LEFT_1440x1440.png",1,"B2 · Black Header Left"]],
-  [["LLA_CONCEPT_09_W1_COURTNEY-WHITE-CARD_1440x1440.png",1,"W1 · White Card"],["LLA_CONCEPT_50_1C_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1C · Decode Your Biomarkers"]],
-  [["LLA_COURTNEY_16x9_1920x1080.png",1.7778,"7A Neon · 16:9"]]
+  ["LLA_COURTNEY_16x9_1920x1080.png",1.7778,"7A Neon · 16:9 · 1920×1080"],
+  ["LLA_COURTNEY_191x1_1200x628.png",1.911,"7A Neon · 1.91:1 · 1200×628"],
+  ["LLA_CONCEPT_03_G2_COURTNEY-GLASS-CARD_1440x1440.png",1,"G2 · Glass Card · 1440×1440"],
+  ["LLA_CONCEPT_50_1C_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1C · Decode Your Biomarkers · 1440×1440"],
+  ["LLA_CONCEPT_49_1B_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1B · Decode Your Biomarkers · 1440×1440"],
+  ["LLA_CONCEPT_52_1E_LIVE-SESSIONS_1440x1440.png",1,"1E · Live Sessions · 1440×1440"],
+  ["LLA_CONCEPT_09_W1_COURTNEY-WHITE-CARD_1440x1440.png",1,"W1 · White Card · 1440×1440"],
+  ["LLA_CONCEPT_10_W3_COURTNEY-WHITE-CARD-RIGHT_1440x1440.png",1,"W3 · White Card Right · 1440×1440"],
+  ["LLA_CONCEPT_13_B2_COURTNEY-BLACK-HEADER-CARD-LEFT_1440x1440.png",1,"B2 · Black Header Left · 1440×1440"],
+  ["LLA_CONCEPT_14_B1_COURTNEY-BLACK-HEADER-CARD-RIGHT_1440x1440.png",1,"B1 · Black Header Right · 1440×1440"],
+  ["LLA_CONCEPT_31_5A_COURTNEY-LEAD-CARD-V2_1440x1440.png",1,"5A · Lead Card V2 · 1440×1440"],
+  ["LLA_2E_GHOST-WORDMARK_1440x1440.png",1,"2E · Ghost Wordmark (fixed blue logo) · 1440×1440"],
+  ["c_b4_1x1.png",1,"Hook 04 · 1:1"],
+  ["c_b4_4x5.png",0.8,"Hook 04 · 4:5"],
+  ["c_b4_9x16.png",0.5625,"Hook 04 · 9:16"],
+  ["c_b4_191x1.png",1.911,"Hook 04 · 1.91:1"],
+  ["LLA_CONCEPT_07_E1_COURTNEY-35-AUG-PROMO-DARK-CARD_1440x1440.png",1,"E1 · 35% Aug Promo Dark Card · 1440×1440"],
+  ["LLA_2A_THE-GRAND-ARCH_1440x1440.png",1,"2A · The Grand Arch (corrected logo) · 1440×1440"],
+  ["LLA_ROUND_6A_1080X1920_1080x1920.png",0.5625,"Round 6A · 1080×1920"],
+  ["LLA_ROUND_7A_1080X1920_1080x1920.png",0.5625,"Round 7A · 1080×1920"],
+  ["LLA_CONCEPT_48_1A_DECODE-YOUR-BIOMARKERS_1440x1440.png",1,"1A · Decode Your Biomarkers · 1440×1440"]
 ];
-// Every card is an IDENTICAL box (2 per row, fixed height); banner fits inside at native ratio.
 const wall = document.querySelector('[data-block="all"]');
-ROWS.flat().forEach(b=>{
+ROWS.forEach(b=>{
   const c = document.createElement('div'); c.className='bcard';
   c.innerHTML = `
     <div class="imgbox"><img src="banners/${b[0]}" alt="${b[2]}" loading="lazy"></div>
