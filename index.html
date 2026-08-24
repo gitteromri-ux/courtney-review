@@ -220,8 +220,8 @@ const wall = document.querySelector('[data-block="all"]');
 ROWS.forEach(row=>{
   const sum = row.reduce((s,b)=>s+b[1],0);
   const r = document.createElement('div'); r.className='brow';
-  // Normalize row width so all rows land at a similar height (squares = baseline).
-  r.style.width = `min(100%, ${(sum/2*100).toFixed(1)}%)`;
+  // Uniform size: every row renders at the same banner height (~340px desktop).
+  r.style.width = `min(100%, ${Math.round(sum*340)}px)`;
   row.forEach(b=>{
     const c = document.createElement('div'); c.className='bcard';
     c.style.flex = `${b[1]} 1 0`;
